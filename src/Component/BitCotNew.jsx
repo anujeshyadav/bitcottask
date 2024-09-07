@@ -9,23 +9,23 @@ function BitCotNew() {
   const [Index, setIndex] = useState(null);
   const [style, setStyle] = useState({
     watchData: {
-      top: "",
-      width: "",
-      left: "",
+      top: "328px",
+      width: 462,
+      left: "100%",
     },
     lineDote: {
-      top: "",
-      width: "",
-      left: "",
+      top: "-11px",
+      // width: 2 * 10,
+      left: "-32px",
     },
     watchLine: {
-      top: "",
-      width: "",
-      left: "",
+      top: "-8px",
+      width: 0,
+      left: "-29px",
     },
     watchPara: {
-      opacity: "",
-      padding: "",
+      opacity: 0,
+      padding: "0px 0px 0px 142px",
     },
   });
 
@@ -41,15 +41,15 @@ function BitCotNew() {
     const scrolled = (scrollPosition / totalScrollableHeight) * 100;
 
     setScrollPercentage(scrolled);
-    console.log(scrolled);
-    let data = { ...style };
+    let data = JSON.parse(JSON.stringify(style));
     if (scrolled < 56) {
       let boundary = scrolled / 4;
-
+      console.log(boundary);
       if (boundary < 14) {
         data.watchData.top = "328px";
         data.watchData.width = 462;
         data.watchData.left = "100%";
+
         data.lineDote.top = "-11px";
         data.lineDote.left = "-32px";
 
@@ -57,15 +57,53 @@ function BitCotNew() {
         data.watchLine.width = scrolled * 10;
         data.watchLine.left = "-29px";
 
-        data.watchPara.opacity = (scrollPercentage * 10) / 100;
-        data.watchPara.padding = "-29px";
+        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.padding = "0px 0px 0px 142px";
         // Handle boundary < 14
       } else if (boundary >= 14 && boundary < 28) {
+        debugger;
+        data.watchData.top = "328px";
+        data.watchData.width = 462;
+        data.watchData.left = "100%";
+        data.lineDote.top = "-11px";
+        data.lineDote.left = "-32px";
+
+        data.watchLine.top = "-8px";
+        data.watchLine.width = scrolled * 20;
+        data.watchLine.left = "-29px";
+
+        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.padding = "0px 0px 0px 142px";
         // Handle 14 <= boundary < 28
       } else if (boundary >= 28 && boundary < 42) {
+        data.watchData.top = "192px";
+        data.watchData.width = 462;
+        data.watchData.left = "100%";
+
+        data.lineDote.top = "-29px";
+        data.lineDote.left = "-51px";
+
+        data.watchLine.top = "-27px";
+        data.watchLine.width = scrolled * 40;
+        data.watchLine.left = "-46px";
+
+        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.padding = "0px 0px 0px 142px";
         // Handle 28 <= boundary < 42
       } else if (boundary >= 42 && boundary < 56) {
-        // Handle 42 <= boundary < 56
+        data.watchData.top = "187px";
+        data.watchData.width = 462;
+        data.watchData.left = "-40%";
+
+        data.lineDote.top = "128px";
+        data.lineDote.left = "179px";
+
+        data.watchLine.top = "131px";
+        data.watchLine.width = scrolled * 80;
+        data.watchLine.left = "37px";
+
+        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.padding = "0px 0px 0px 142px";
       }
     } else {
       if (scrolled >= 56) {
@@ -82,6 +120,8 @@ function BitCotNew() {
         }
       }
     }
+    console.log(data);
+    setStyle(data);
   };
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -144,7 +184,7 @@ function BitCotNew() {
               src={first}
               style={{ color: "transparent" }}
             />
-            <div
+            {/* <div
               className="watch-data"
               style={{ top: "328px", width: 462, left: "100%" }}>
               <div
@@ -165,6 +205,19 @@ function BitCotNew() {
                   opacity: `${(scrollPercentage * 10) / 100}`,
                   padding: "0px 0px 0px 142px",
                 }}>
+                <p>
+                  TOKK AI has a dedicated
+                  <br />
+                  button for effortless volume
+                  <br />
+                  control.
+                </p>
+              </div>
+            </div> */}
+            <div className="watch-data" style={style.watchData}>
+              <div className="line-dote" style={style.lineDote} />
+              <div className="watch-line" style={style.watchLine} />
+              <div className="watch-para" style={style.watchPara}>
                 <p>
                   TOKK AI has a dedicated
                   <br />
