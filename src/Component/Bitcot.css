@@ -30,22 +30,11 @@ video {
     height: auto;
 }
 
-/* audio,
-canvas,
-embed,
-iframe,
-img,
-object,
-svg,
-video {
-    display: block;
-    vertical-align: middle;
-} */
+
 
 @media only screen and (max-width: 767px) {
 
-    .flat-watch .watch-data,
-    .watch-data {
+    .flat-watch {
         width: 100% !important;
         left: 50% !important;
         bottom: -70px !important;
@@ -108,4 +97,10 @@ p {
     .watch-data {
         width: 85% !important;
     }
+}
+.watch-data {
+    position: absolute;
+    color: #fff;
+    font-size: 20px;
+    transition: opacity .6s ease-out;
 }

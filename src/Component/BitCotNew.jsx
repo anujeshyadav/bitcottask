@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import "./Bitcot.css";
 import first from "./assets/first.webp";
@@ -6,6 +6,31 @@ import second from "./assets/second.webp";
 
 function BitCotNew() {
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [Index, setIndex] = useState(null);
+  const [style, setStyle] = useState({
+    watchData: {
+      top: "",
+      width: "",
+      left: "",
+    },
+    lineDote: {
+      top: "",
+      width: "",
+      left: "",
+    },
+    watchLine: {
+      top: "",
+      width: "",
+      left: "",
+    },
+    watchPara: {
+      opacity: "",
+      padding: "",
+    },
+  });
+
+  const [visibleItems, setVisibleItems] = useState([]);
+  const itemsRef = useRef([]);
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -16,8 +41,85 @@ function BitCotNew() {
     const scrolled = (scrollPosition / totalScrollableHeight) * 100;
 
     setScrollPercentage(scrolled);
-    // console.log(scrolled);
+    console.log(scrolled);
+    let data = { ...style };
+    if (scrolled < 56) {
+      let boundary = scrolled / 4;
+
+      if (boundary < 14) {
+        data.watchData.top = "328px";
+        data.watchData.width = 462;
+        data.watchData.left = "100%";
+        data.lineDote.top = "-11px";
+        data.lineDote.left = "-32px";
+
+        data.watchLine.top = "-8px";
+        data.watchLine.width = scrolled * 10;
+        data.watchLine.left = "-29px";
+
+        data.watchPara.opacity = (scrollPercentage * 10) / 100;
+        data.watchPara.padding = "-29px";
+        // Handle boundary < 14
+      } else if (boundary >= 14 && boundary < 28) {
+        // Handle 14 <= boundary < 28
+      } else if (boundary >= 28 && boundary < 42) {
+        // Handle 28 <= boundary < 42
+      } else if (boundary >= 42 && boundary < 56) {
+        // Handle 42 <= boundary < 56
+      }
+    } else {
+      if (scrolled >= 56) {
+        let boundary = scrolled / 4;
+
+        if (boundary >= 56 && boundary < 70) {
+          // Handle 56 <= boundary < 70
+        } else if (boundary >= 70 && boundary < 84) {
+          // Handle 70 <= boundary < 84
+        } else if (boundary >= 84 && boundary < 98) {
+          // Handle 84 <= boundary < 98
+        } else if (boundary >= 98) {
+          // Handle boundary >= 98
+        }
+      }
+    }
   };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = entry.target.dataset.index;
+          setIndex(index);
+          // console.log(index);
+          if (entry.isIntersecting) {
+            // debugger;
+            console.log(entry);
+            setVisibleItems((prevItems) => [...new Set([...prevItems, index])]);
+          } else {
+            setVisibleItems((prevItems) =>
+              prevItems.filter((item) => item !== index)
+            );
+          }
+        });
+      },
+      {
+        root: null, // use the viewport
+        rootMargin: "0px",
+        threshold: 0.5, // 50% of the element should be visible
+      }
+    );
+
+    // Observe each item
+    itemsRef.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      itemsRef.current.forEach((item) => {
+        if (item) observer.unobserve(item);
+      });
+    };
+  }, []);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -47,20 +149,20 @@ function BitCotNew() {
               style={{ top: "328px", width: 462, left: "100%" }}>
               <div
                 className="line-dote"
-                style={{ top: "324px", left: "239px" }}
+                style={{ top: "-11px", left: "-32px" }}
               />
               <div
                 className="watch-line"
                 style={{
-                  width: `${scrollPercentage}%`,
-                  top: "328px",
-                  left: "239px",
+                  width: `${scrollPercentage * 10}%`,
+                  top: "-8px",
+                  left: "-29px",
                 }}
               />
               <div
                 className="watch-para"
                 style={{
-                  opacity: `${scrollPercentage / 100}`,
+                  opacity: `${(scrollPercentage * 10) / 100}`,
                   padding: "0px 0px 0px 142px",
                 }}>
                 <p>
@@ -80,6 +182,32 @@ function BitCotNew() {
           <li data-index={2} />
           <li data-index={3} />
         </ul>
+        {/* <ul
+          className="scroll-wrap"
+          style={{ height: "100vh", overflowY: "scroll" }}>
+          {[0, 1, 2, 3].map((index) => (
+            <li
+              key={index}
+              data-index={index}
+              ref={(el) => (itemsRef.current[index] = el)}
+              style={{
+                height: "100vh", // each item takes the full height of the viewport
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "1px solid black",
+              }}>
+              <div style={{ textAlign: "center" }}>
+                <h2>Item {index}</h2>
+                <p>
+                  {visibleItems.includes(String(index))
+                    ? "In View"
+                    : "Not in View"}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul> */}
       </section>
       <section className="watch-effect watch-effect-flat">
         <div className="watch-content flat-watch">
