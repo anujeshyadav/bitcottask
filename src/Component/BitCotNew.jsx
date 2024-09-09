@@ -9,23 +9,23 @@ function BitCotNew() {
   const [Index, setIndex] = useState(null);
   const [style, setStyle] = useState({
     watchData: {
-      top: "328px",
-      width: 462,
-      left: "100%",
+      // top: "328px",
+      // width: 462,
+      // left: "100%",
     },
     lineDote: {
-      top: "-11px",
+      // top: "-11px",
       // width: 2 * 10,
-      left: "-32px",
+      // left: "-32px",
     },
     watchLine: {
-      top: "-8px",
-      width: 0,
-      left: "-29px",
+      // top: "-8px",
+      // width: 0,
+      // left: "-29px",
     },
     watchPara: {
-      opacity: 0,
-      padding: "0px 0px 0px 142px",
+      // opacity: 0,
+      // padding: "0px 0px 0px 142px",
     },
   });
 
@@ -44,8 +44,16 @@ function BitCotNew() {
     let data = JSON.parse(JSON.stringify(style));
     if (scrolled < 56) {
       let boundary = scrolled / 4;
-      console.log(boundary);
-      if (boundary < 14) {
+      if (scrolled < 14) {
+        window.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("watch-para").innerHTML = `
+    <p>
+      TOKKTM is designed for easyinteractions with a second Multi-Function Button for added convenience.
+    </p>
+  `;
+        });
+        const percentage = (scrolled / 14) * 100;
+
         data.watchData.top = "328px";
         data.watchData.width = 462;
         data.watchData.left = "100%";
@@ -54,73 +62,99 @@ function BitCotNew() {
         data.lineDote.left = "-32px";
 
         data.watchLine.top = "-8px";
-        data.watchLine.width = scrolled * 10;
+        data.watchLine.width = percentage * 4;
         data.watchLine.left = "-29px";
 
-        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.opacity = (percentage * 2) / 100;
         data.watchPara.padding = "0px 0px 0px 142px";
         // Handle boundary < 14
-      } else if (boundary >= 14 && boundary < 28) {
-        debugger;
-        data.watchData.top = "328px";
+      } else if (scrolled >= 14 && scrolled < 28) {
+        window.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("watch-para").innerHTML = `
+    <p>
+      TOKK AI makes your voice clear and easy to hear with powerful speakers and smart microphones that block out noise.
+    </p>
+  `;
+        });
+        const percentage = ((scrolled - 14) / 14) * 100;
+        data.watchData.top = "172px";
         data.watchData.width = 462;
         data.watchData.left = "100%";
-        data.lineDote.top = "-11px";
-        data.lineDote.left = "-32px";
+        data.lineDote.top = "-13px";
+        data.lineDote.left = "-56px";
 
         data.watchLine.top = "-8px";
-        data.watchLine.width = scrolled * 20;
-        data.watchLine.left = "-29px";
+        data.watchLine.width = percentage * 4;
+        data.watchLine.left = "-51px";
 
-        data.watchPara.opacity = (scrolled * 10) / 100;
+        data.watchPara.opacity = (percentage * 2) / 100;
         data.watchPara.padding = "0px 0px 0px 142px";
-        // Handle 14 <= boundary < 28
-      } else if (boundary >= 28 && boundary < 42) {
-        data.watchData.top = "192px";
+      } else if (scrolled >= 28 && scrolled < 42) {
+        window.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("watch-para").innerHTML = `
+    <p>
+      TOKKTM is designed for easyinteractions with a second Multi-Function Button for added convenience.
+    </p>
+  `;
+        });
+        const percentage = ((scrolled - 28) / 14) * 100;
+        data.watchData.top = "352px";
+        data.watchData.width = 462;
+        data.watchData.right = "33px";
+
+        data.lineDote.top = "-25px";
+        data.lineDote.right = "139px";
+
+        data.watchLine.top = "-23px";
+        data.watchLine.width = percentage * 4;
+        data.watchLine.right = "148px";
+
+        data.watchPara.opacity = (percentage * 2) / 100;
+        data.watchPara.padding = "0px 0px 0px 142px";
+        // Handle 28 <= boundary < 42
+      } else if (scrolled >= 42 && scrolled < 56) {
+        window.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("watch-para").innerHTML = `
+    <p>
+      
+TOKK <sup>TM</sup> is designed for easyinteractions with a second Multi-Function Button for added convenience.
+    </p>
+  `;
+        });
+        const percentage = ((scrolled - 42) / 14) * 100;
+        data.watchData.top = "228px";
         data.watchData.width = 462;
         data.watchData.left = "100%";
 
-        data.lineDote.top = "-29px";
-        data.lineDote.left = "-51px";
+        data.lineDote.top = "-12px";
+        data.lineDote.left = "-41px";
 
-        data.watchLine.top = "-27px";
-        data.watchLine.width = scrolled * 40;
-        data.watchLine.left = "-46px";
+        data.watchLine.top = "-6px";
+        data.watchLine.width = percentage * 4;
+        data.watchLine.left = "-37px";
 
-        data.watchPara.opacity = (scrolled * 10) / 100;
-        data.watchPara.padding = "0px 0px 0px 142px";
-        // Handle 28 <= boundary < 42
-      } else if (boundary >= 42 && boundary < 56) {
-        data.watchData.top = "187px";
-        data.watchData.width = 462;
-        data.watchData.left = "-40%";
-
-        data.lineDote.top = "128px";
-        data.lineDote.left = "179px";
-
-        data.watchLine.top = "131px";
-        data.watchLine.width = scrolled * 80;
-        data.watchLine.left = "37px";
-
-        data.watchPara.opacity = (scrolled * 10) / 100;
-        data.watchPara.padding = "0px 0px 0px 142px";
+        data.watchPara.opacity = (percentage * 2) / 100;
+        data.watchPara.padding = "0px 0px 0px 143px";
       }
     } else {
       if (scrolled >= 56) {
         let boundary = scrolled / 4;
-
-        if (boundary >= 56 && boundary < 70) {
-          // Handle 56 <= boundary < 70
-        } else if (boundary >= 70 && boundary < 84) {
-          // Handle 70 <= boundary < 84
-        } else if (boundary >= 84 && boundary < 98) {
-          // Handle 84 <= boundary < 98
-        } else if (boundary >= 98) {
-          // Handle boundary >= 98
+        if (scrolled >= 56 && scrolled < 70) {
+          const percentage = ((boundary - 56) / 14) * 100;
+          // Handle segment 5 (56-70)
+        } else if (scrolled >= 70 && scrolled < 84) {
+          const percentage = ((boundary - 70) / 14) * 100;
+          // Handle segment 6 (70-84)
+        } else if (scrolled >= 84 && scrolled < 98) {
+          const percentage = ((boundary - 84) / 14) * 100;
+          // Handle segment 7 (84-98)
+        } else if (scrolled >= 98) {
+          const percentage = ((boundary - 98) / 14) * 100;
+          // Handle segment 8 (98+)
         }
       }
     }
-    console.log(data);
+    // console.log(data);
     setStyle(data);
   };
   useEffect(() => {
@@ -132,7 +166,7 @@ function BitCotNew() {
           // console.log(index);
           if (entry.isIntersecting) {
             // debugger;
-            console.log(entry);
+            // console.log(entry);
             setVisibleItems((prevItems) => [...new Set([...prevItems, index])]);
           } else {
             setVisibleItems((prevItems) =>
