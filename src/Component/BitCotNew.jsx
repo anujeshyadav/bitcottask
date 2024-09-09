@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Bitcot.css";
 import first from "./assets/first.webp";
 import second from "./assets/second.webp";
 
 function BitCotNew() {
+  const boxRef = useRef([]);
+  const [inViewIndex, setInViewIndex] = useState(null); // Track which item is in view
+
   const [scrollPercentage, setScrollPercentage] = useState(0);
-  const [Index, setIndex] = useState(null);
   const [style, setStyle] = useState({
     watchData: {
       // top: "328px",
@@ -141,63 +142,85 @@ TOKK <sup>TM</sup> is designed for easyinteractions with a second Multi-Function
         let boundary = scrolled / 4;
         if (scrolled >= 56 && scrolled < 70) {
           const percentage = ((boundary - 56) / 14) * 100;
-          // Handle segment 5 (56-70)
         } else if (scrolled >= 70 && scrolled < 84) {
           const percentage = ((boundary - 70) / 14) * 100;
-          // Handle segment 6 (70-84)
         } else if (scrolled >= 84 && scrolled < 98) {
           const percentage = ((boundary - 84) / 14) * 100;
-          // Handle segment 7 (84-98)
         } else if (scrolled >= 98) {
           const percentage = ((boundary - 98) / 14) * 100;
-          // Handle segment 8 (98+)
         }
       }
     }
-    // console.log(data);
     setStyle(data);
   };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const index = entry.target.dataset.index;
-          setIndex(index);
-          // console.log(index);
           if (entry.isIntersecting) {
-            // debugger;
-            // console.log(entry);
-            setVisibleItems((prevItems) => [...new Set([...prevItems, index])]);
-          } else {
-            setVisibleItems((prevItems) =>
-              prevItems.filter((item) => item !== index)
-            );
+            const index = boxRef.current.indexOf(entry.target); // Get index of the observed element
+            console.log("Index", index);
+            console.log("In Entry", entry);
+            setInViewIndex(index); // Set the index of the currently visible item
           }
         });
       },
       {
-        root: null, // use the viewport
-        rootMargin: "0px",
-        threshold: 0.5, // 50% of the element should be visible
+        threshold: 0.1, // Trigger when 10% of the element is visible
       }
     );
 
-    // Observe each item
-    itemsRef.current.forEach((item) => {
-      if (item) observer.observe(item);
+    // Start observing each list item
+    boxRef.current.forEach((box) => {
+      if (box) observer.observe(box);
     });
 
-    // Cleanup on unmount
+    // Clean up the observer on unmount
     return () => {
-      itemsRef.current.forEach((item) => {
-        if (item) observer.unobserve(item);
+      boxRef.current.forEach((box) => {
+        if (box) observer.unobserve(box);
       });
     };
   }, []);
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         const index = entry.target.dataset.index;
+  //         setIndex(index);
+  //         // console.log(index);
+  //         if (entry.isIntersecting) {
+  //           // debugger;
+  //           // console.log(entry);
+  //           setVisibleItems((prevItems) => [...new Set([...prevItems, index])]);
+  //         } else {
+  //           setVisibleItems((prevItems) =>
+  //             prevItems.filter((item) => item !== index)
+  //           );
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null, // use the viewport
+  //       rootMargin: "0px",
+  //       threshold: 0.5, // 50% of the element should be visible
+  //     }
+  //   );
+
+  //   itemsRef.current.forEach((item) => {
+  //     if (item) observer.observe(item);
+  //   });
+
+  //   return () => {
+  //     itemsRef.current.forEach((item) => {
+  //       if (item) observer.unobserve(item);
+  //     });
+  //   };
+  // }, []);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup the event listener
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -218,36 +241,7 @@ TOKK <sup>TM</sup> is designed for easyinteractions with a second Multi-Function
               src={first}
               style={{ color: "transparent" }}
             />
-            {/* <div
-              className="watch-data"
-              style={{ top: "328px", width: 462, left: "100%" }}>
-              <div
-                className="line-dote"
-                style={{ top: "-11px", left: "-32px" }}
-              />
-              <div
-                className="watch-line"
-                style={{
-                  width: `${scrollPercentage * 10}%`,
-                  top: "-8px",
-                  left: "-29px",
-                }}
-              />
-              <div
-                className="watch-para"
-                style={{
-                  opacity: `${(scrollPercentage * 10) / 100}`,
-                  padding: "0px 0px 0px 142px",
-                }}>
-                <p>
-                  TOKK AI has a dedicated
-                  <br />
-                  button for effortless volume
-                  <br />
-                  control.
-                </p>
-              </div>
-            </div> */}
+
             <div className="watch-data" style={style.watchData}>
               <div className="line-dote" style={style.lineDote} />
               <div className="watch-line" style={style.watchLine} />
@@ -264,10 +258,21 @@ TOKK <sup>TM</sup> is designed for easyinteractions with a second Multi-Function
           </div>
         </div>
         <ul className="scroll-wrap">
-          <li data-index={0} />
+          {[1, 2, 3, 4].map((ele, i) => (
+            <li
+              key={ele}
+              ref={(el) => (boxRef.current[i] = el)} // Assign refs to each list item
+              style={{
+                height: "100vh",
+                backgroundColor: inViewIndex === i ? "lightgreen" : "lightgray",
+              }}>
+              Item {ele}
+            </li>
+          ))}
+          {/* <li data-index={0} />
           <li data-index={1} />
           <li data-index={2} />
-          <li data-index={3} />
+          <li data-index={3} /> */}
         </ul>
         {/* <ul
           className="scroll-wrap"
